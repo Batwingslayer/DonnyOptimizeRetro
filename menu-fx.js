@@ -3,8 +3,8 @@
    Robust against bundle re-renders: delegated events + MutationObserver. */
 (function () {
   "use strict";
-  if (window.__menuFx) return;
-  window.__menuFx = true;
+  if (document.__menuFx) return;
+  document.__menuFx = true;
 
   var BP = 720;
   var open = false;
