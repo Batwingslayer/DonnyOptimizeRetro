@@ -65,6 +65,10 @@
       btn.setAttribute("aria-label", "Menu");
       btn.innerHTML = "<i></i>";
       header.appendChild(btn);
+      // direct handlers (iOS can suppress delegated click on dynamic buttons)
+      var fire = function (e) { e.preventDefault(); e.stopPropagation(); setOpen(!open); };
+      btn.addEventListener("touchend", fire, { passive: false });
+      btn.addEventListener("click", fire);
     }
     // panel (rebuild items to stay in sync)
     var panel = document.getElementById("menufx-panel");
@@ -110,6 +114,14 @@
       if (e.target.tagName === "A") setOpen(false);
       return;
     }
+    if (open) setOpen(false);
+  }, true);
+
+  // close on outside tap (touch)
+  document.addEventListener("touchend", function (e) {
+    if (e.target.closest && e.target.closest("#menufx-btn")) return;
+    var panel = document.getElementById("menufx-panel");
+    if (panel && panel.contains(e.target)) return;
     if (open) setOpen(false);
   }, true);
 
